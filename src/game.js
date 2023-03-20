@@ -70,24 +70,18 @@ function handleCollision() {
       scoreboard.innerHTML = `score: ${score}`;
     }
   });
-
   // Grow player function. 1 point = 1px.
-  function playerGrow() {
-    const size = score + 50;
-    player.style.height = `${size}px`;
-    player.style.width = `${size}px`;
-  }
-  playerGrow();
+  const size = score + 50;
+  player.style.height = `${size}px`;
+  player.style.width = `${size}px`;
 }
 setInterval(handleCollision, 100);
+
 
 // Create objects function.
 function createObject() {
   // Random color for object. Number generated from 1 to 5.
-  function randomIntFromInterval(min, max) {
-    return Math.floor(Math.random() * (max - min + 1) + min)
-  }
-  const randomColorObject = randomIntFromInterval(1, 5);
+  const BackgroundColorsPicker = Math.floor(Math.random() * (5 - 0 + 1) + 0);
 
   // Styling objects.
   const object = document.createElement("div");
@@ -96,26 +90,9 @@ function createObject() {
   object.style.height = "10px";
   object.style.width = "10px";
 
-  switch (randomColorObject) {
-    case 1:
-      object.style.backgroundColor = "red";
-      break;
-    case 2:
-      object.style.backgroundColor = "blue";
-      break;
-    case 3:
-      object.style.backgroundColor = "green";
-      break;
-    case 4:
-      object.style.backgroundColor = "yellow";
-      break;
-    case 5:
-      object.style.backgroundColor = "orange";
-      break;
-    default:
-      object.style.backgroundColor = "red";
-      break;
-  }
+  // Array with all the colors from 0 to 5.
+  let colors = ["red", "blue", "green", "yellow", "orange"];
+  object.style.backgroundColor = colors[BackgroundColorsPicker];
 
   // Generate random position for object.
   const { clientWidth: width, clientHeight: height } = gameboard;
@@ -129,6 +106,14 @@ function createObject() {
 }
 playerMovement();
 
+// Set player name.
+function setPlayerName() {
+  const playerName = document.getElementById("name").value;
+  const player = document.getElementById("player");
+  player.innerHTML = playerName;
+  player.style.color = "white";
+  player.style.fontSize = "20px";
+}
 function startGame() {
   const startGame = document.querySelector(".containerStart");
   if (startGame.style.display === "none") {
@@ -136,16 +121,6 @@ function startGame() {
   } else {
     startGame.style.display = "none";
   }
-
-  // Set player name.
-  function setPlayerName() {
-    const playerName = document.getElementById("name").value;
-    const player = document.getElementById("player");
-    player.innerHTML = playerName;
-    player.style.color = "white";
-    player.style.fontSize = "20px";
-  }
-  // Start game.
   setPlayerName();
   setInterval(createObject, 3000);
 }
